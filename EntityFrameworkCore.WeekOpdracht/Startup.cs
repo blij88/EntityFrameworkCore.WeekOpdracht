@@ -1,5 +1,6 @@
 using EntityFrameworkCore.WeekOpdracht.Business;
 using EntityFrameworkCore.WeekOpdracht.Business.Interfaces;
+using EntityFrameworkCore.WeekOpdracht.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +25,7 @@ namespace EntityFrameworkCore.WeekOpdracht
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMessageService, MessageService>();
-            services.AddScoped<ILogger, DatabaseLog>();
+            services.AddScoped<ILogging, FileLog>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

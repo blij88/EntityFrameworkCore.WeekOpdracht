@@ -12,6 +12,7 @@ namespace EntityFrameworkCore.WeekOpdracht.Console
     {
         private static IUserService userService;
         private static IMessageService messageService;
+        private static ILogging logging;
 
         static void Main(string[] args)
         {
@@ -21,7 +22,9 @@ namespace EntityFrameworkCore.WeekOpdracht.Console
             var serviceProvider = serviceCollection.BuildServiceProvider();
             userService = serviceProvider.GetService<IUserService>();
             messageService = serviceProvider.GetService<IMessageService>();
+            logging = serviceProvider.GetService<ILogging>();
 
+            logging.Log("starting", Microsoft.Extensions.Logging.LogLevel.Information);
             System.Console.WriteLine("Deleting old stuff");
             DeleteAll();
 
@@ -75,6 +78,7 @@ namespace EntityFrameworkCore.WeekOpdracht.Console
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<ILogging, ConsoleLog>();
         }
     }
 }

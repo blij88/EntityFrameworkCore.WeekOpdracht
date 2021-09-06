@@ -2,36 +2,39 @@
 using EntityFrameworkCore.WeekOpdracht.Business.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 
 namespace EntityFrameworkCore.WeekOpdracht.Business
 {
-    public class DatabaseLog : ILogging
+    public class FileLog : ILogging
     {
-        private readonly DataContext dataContext;
 
-        public DatabaseLog(DataContext dataContext)
+        public FileLog()
         {
-            this.dataContext = dataContext;
         }
         public void Log(string Message, LogLevel Level, Exception e)
         {
             var log = new LogMessage(e, Message, Level);
-            dataContext.Add(log);
-            dataContext.SaveChanges();
+            WriteToFile(log);
         }
 
         public void Log(string Message, LogLevel Level)
         {
             var log = new LogMessage(Message, Level);
-            dataContext.Add(log);
-            dataContext.SaveChanges();
+            WriteToFile(log);
         }
 
         public void Log(string Message)
         {
             var log = new LogMessage(Message);
-            dataContext.Add(log);
-            dataContext.SaveChanges();
+            WriteToFile(log);
+        }
+
+
+        private static void WriteToFile(LogMessage log)
+        {
+            using StreamWriter file = new("logFile.txt", append: true);
+            file.WriteLine($"{log.Logged};{log.Level};{log.Message}");
         }
     }
 

@@ -10,22 +10,26 @@ namespace EntityFrameworkCore.WeekOpdracht.Controllers
     public class MessageController : ControllerBase
     {
         private readonly IMessageService messageService;
+        private readonly ILogging logging;
 
-        public MessageController(IMessageService messageService)
+        public MessageController(IMessageService messageService, ILogging logging)
         {
             this.messageService = messageService;
+            this.logging = logging;
         }
 
         [HttpPost]
         public IActionResult Create(Message message)
         {
+            logging.Log("creating Message", Microsoft.Extensions.Logging.LogLevel.Information);
             try
             {
                 return Ok(messageService.Add(message));
             }
             catch (Exception ex)
             {
-                return BadRequest(new
+                logging.Log("test message", Microsoft.Extensions.Logging.LogLevel.Error, ex);
+                    return BadRequest(new
                 {
                     Message = ex.Message
                 });

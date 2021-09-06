@@ -1,5 +1,6 @@
 ﻿using EntityFrameworkCore.WeekOpdracht.Business.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EntityFrameworkCore.WeekOpdracht.Business
 {
@@ -14,7 +15,7 @@ namespace EntityFrameworkCore.WeekOpdracht.Business
             optionsBuilder.UseSqlServer("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = MessageLogger; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False");
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating( ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Message>()
                 .Property(b => b.DateTimeSend)
